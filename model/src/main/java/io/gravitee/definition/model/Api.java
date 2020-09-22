@@ -15,6 +15,7 @@
  */
 package io.gravitee.definition.model;
 
+import io.gravitee.definition.model.flow.Flow;
 import io.gravitee.definition.model.plugins.resources.Resource;
 import io.gravitee.definition.model.services.Services;
 
@@ -31,14 +32,17 @@ public class Api {
     private String id;
     private String name;
     private String version;
+    private DefinitionVersion definitionVersion;
     private Proxy proxy;
     private Services services = new Services();
     private List<Resource> resources = new ArrayList<>();
     private Map<String, Path> paths;
+    private List<Flow> flows;
     private Properties properties;
     private Set<String> tags = new HashSet<>();
     private Map<String, Pattern> pathMappings = new HashMap<>();
     private Map<String, ResponseTemplates> responseTemplates = new HashMap<>();
+    private Map<String, Plan> plans = new HashMap<>();
 
     public String getId() {
         return id;
@@ -130,6 +134,41 @@ public class Api {
 
     public void setResponseTemplates(Map<String, ResponseTemplates> responseTemplates) {
         this.responseTemplates = responseTemplates;
+    }
+
+    public List<Flow> getFlows() {
+        return flows;
+    }
+
+    public void setFlows(List<Flow> flows) {
+        this.flows = flows;
+    }
+
+    public DefinitionVersion getDefinitionVersion() {
+        return definitionVersion;
+    }
+
+    public void setDefinitionVersion(DefinitionVersion definitionVersion) {
+        this.definitionVersion = definitionVersion;
+    }
+
+    public Plan getPlan(String plan) {
+        return plans.get(plan);
+    }
+
+    public Collection<Plan> getPlans() {
+        return plans.values();
+    }
+
+    public void setPlans(Collection<Plan> plans) {
+        this.plans = new HashMap<>();
+        this.addPlans(plans);
+    }
+
+    public void addPlans(Collection<Plan> plans) {
+        for (Plan plan : plans) {
+            this.plans.put(plan.getId(), plan);
+        }
     }
 
     @Override

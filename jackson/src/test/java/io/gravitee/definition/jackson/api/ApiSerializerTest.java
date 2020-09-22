@@ -17,10 +17,10 @@ package io.gravitee.definition.jackson.api;
 
 import io.gravitee.definition.jackson.AbstractTest;
 import io.gravitee.definition.model.Api;
-import io.gravitee.definition.model.Endpoint;
-import io.gravitee.definition.model.EndpointType;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -330,5 +330,14 @@ public class ApiSerializerTest extends AbstractTest {
 
         String generatedJsonDefinition = objectMapper().writeValueAsString(api);
         Assert.assertNotNull(generatedJsonDefinition);
+    }
+
+    @Test
+    public void definition_defaultflow() throws Exception {
+        Api api = load("/io/gravitee/definition/jackson/api-defaultflow.json", Api.class);
+
+        String generatedJsonDefinition = objectMapper().writeValueAsString(api);
+        Assert.assertNotNull(generatedJsonDefinition);
+        assertTrue(generatedJsonDefinition.contains("\"gravitee\" : \"2.0.0\","));
     }
 }
